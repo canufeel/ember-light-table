@@ -459,6 +459,15 @@ export default Component.extend({
      */
     onScrolledToBottom() {
       this.sendAction('onScrolledToBottom');
+    },
+
+    /**
+     * onScrolledToTop action - sent when user scrolls to the top
+     *
+     * @event onScrolledToTop
+     */
+    onScrolledToTop() {
+      this.sendAction('onScrolledToTop');
     }
   }
 });

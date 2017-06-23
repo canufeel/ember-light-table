@@ -13,6 +13,10 @@
   }}
     <div id={{concat tableId '_inline_head'}} class="lt-inline lt-head"></div>
 
+    {{#if onScrolledToTop}}
+      {{lt.infinity rows=rows onScrolledToTop=onScrolledToTop scrollBuffer=scrollBuffer}}
+    {{/if}}
+
     <table class={{tableClassNames}}>
       <tbody class="lt-body">
         {{#if overwrite}}

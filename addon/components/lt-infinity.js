@@ -39,32 +39,33 @@ export default Component.extend(InViewportMixin, {
   },
 
   didEnterViewport() {
-    this._debounceScrolledToBottom();
+    this._debounceScrolledTo();
   },
 
   didExitViewport() {
     this._cancelTimers();
   },
 
-  scheduleScrolledToBottom: observer('rows.[]', 'viewportEntered', function() {
+  scheduleScrolledTo: observer('rows.[]', 'viewportEntered', function() {
     if (this.get('viewportEntered')) {
       /*
         Continue scheduling onScrolledToBottom until no longer in viewport
        */
-      this._scheduleScrolledToBottom();
+      this._scheduleScrolledTo();
     }
   }),
 
-  _scheduleScrolledToBottom() {
-    this._schedulerTimer = run.scheduleOnce('afterRender', this, this._debounceScrolledToBottom);
+  _scheduleScrolledTo() {
+    this._schedulerTimer = run.scheduleOnce('afterRender', this, this._debounceScrolledTo);
   },
 
-  _debounceScrolledToBottom(delay = 100) {
+  _debounceScrolledTo(delay = 100) {
     /*
       This debounce is needed when there is not enough delay between onScrolledToBottom calls.
       Without this debounce, all rows will be rendered causing immense performance problems
      */
-    this._debounceTimer = run.debounce(this, this.sendAction, 'onScrolledToBottom', delay);
+    const action = this.get('onScrolledToTop') ? 'onScrolledToTop' : 'onScrolledToBottom';
+    this._debounceTimer = run.debounce(this, this.sendAction, action, delay);
   },
 
   _cancelTimers() {
